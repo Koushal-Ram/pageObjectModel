@@ -1140,3 +1140,27 @@ test('GET users with common headers', async ({ playwright }) => {
 Here, extraHTTPHeaders applies the specified headers to requests made through that context, so you don't need to repeat them in every request.
 
 For real projects, store tokens in environment variables rather than hardcoding them in test files.
+
+
+3. How to Send Authentication in Playwright API Testing
+Example using Bearer Token Authentication:
+
+javascript
+import { test, expect } from '@playwright/test';
+
+test('API authentication using Bearer token', async ({ request }) => {
+  const response = await request.get(
+    'https://api.example.com/users',
+    {
+      headers: {
+        Authorization: `Bearer ${process.env.API_TOKEN}`,
+        Accept: 'application/json'
+      }
+    }
+  );
+
+  expect(response.status()).toBe(200);
+
+  const data = await response.json();
+  console.log(data);
+});
